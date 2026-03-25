@@ -64,7 +64,7 @@ can get your contact management tasks done faster than traditional GUI apps.
 * Items with `…`​ after them can be used multiple times including zero times.<br>
   e.g. `[--tag=TAG]…​` can be used as ` ` (i.e. 0 times), `--tag=friend`, `--tag=friend --tag=family` etc.
 
-* Parameters can be in any order.<br>
+* Parameters can be in any order except for `renametag`.<br>
   e.g. if the command specifies `--name=NAME --phone=PHONE_NUMBER`, `--phone=PHONE_NUMBER --name=NAME` is also
   acceptable.
 
@@ -205,9 +205,34 @@ Finds persons whose tags contain all the given keywords. If there is more than o
 Format: `filter --tag=TAG_KEYWORD [--tag=MORE_KEYWORDS]…​`
 
 * Multiple keywords can be provided, separated by spaces
-* The search is case-insensitive. e.g `Plumbing` will match `plumbing`
+* The filter is case-insensitive. e.g `Plumbing` will match `plumbing`
 * Only filters by tags.
 * Only persons matching all one keyword will be returned (i.e. `AND` search).
+
+### Renaming a tag: `renametag`
+
+Renames an existing tag to a new name across the entire address book. All clients with the old tag will be updated with the new tag name.
+
+Format: `renametag --tag=OLD_TAG --tag=NEW_TAG`
+
+* Tags have to be in this specific order and only 2 parameters are accepted.
+* The `OLD_TAG` must exist in the address book.
+* The `NEW_TAG` must be a valid tag name and should not already exist in the address book.
+* Tag names are case-insensitive. e.g., `PLUMBING` and `plumbing` are considered the same tag.
+
+Examples:
+
+* `renametag --tag=AC-Service --tag=Aircon-Repair` renames all instances of `AC-Service` to `Aircon-Repair`.
+* `renametag --tag=plumbing --tag=General-Maintenance` renames the `plumbing` tag to `General-Maintenance`.
+
+### Deleting a tag: `deletetag`
+
+Deletes a specific tag and removes it from all clients currently having it.
+
+Format: `deletetag TAG_NAME`
+
+* The `TAG_NAME` must exist in the address book. 
+* This operation cannot be undone.
 
 ### Clearing all entries : `clear`
 
@@ -273,9 +298,11 @@ the data of your previous LinkLine home folder.
  **Clear**        | `clear`                                                                                                                                                                                                                                                                               
  **Copy Address** | `copyaddr INDEX`<br> e.g., `copyaddr 1`                                                                                                                                                                                                                                               
  **Delete**       | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                                                                                                   
+ **Delete Tag**   | `deletetag TAG_NAME`<br> e.g., `deletetag plumbing`                                                                                                                                                                                                                                  
  **Edit**         | `edit INDEX [--name=NAME] [--phone=PHONE_NUMBER] [--email=EMAIL] [--address=ADDRESS] [--tag=TAG]…​ [--notes=NOTES]`<br> e.g.,`edit 2 --name=James Lee --email=jameslee@example.com`                                                                                                   
- **Filter**         | `filter --tag=TAG_KEYWORD [--tag=MORE_KEYWORDS]…​`<br> e.g., `filter --tag=Plumbing`                                                                                                                                                                                                     
+ **Filter**       | `filter --tag=TAG_KEYWORD [--tag=MORE_KEYWORDS]…​`<br> e.g., `filter --tag=Plumbing`                                                                                                                                                                                                     
  **Find**         | `find [--name=KEYWORD [MORE_KEYWORDS]] [--phone=NUMBER [MORE_NUMBERS]]`<br> e.g., `find --name=James Jake`                                                                                                                                                                                   
  **Help**         | `help`                                                                                                                                                                                                                                                                                
  **List**         | `list`                                                                                                                                                                                                                                                                                
+ **Rename Tag**   | `renametag --tag=OLD_TAG --tag=NEW_TAG`<br> e.g., `renametag --tag=AC-Service --tag=Aircon-Repair`                                                                                                                                                                                     
  **View**         | `view INDEX`<br> e.g., `view 1`                                                                                                                                                                                                                                                       
