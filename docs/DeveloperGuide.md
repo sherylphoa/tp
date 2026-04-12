@@ -1037,8 +1037,6 @@ Removing or renaming optional fields such as `notes`, `logs`, or `tags` may stil
 ## **Appendix: Effort**
 This project extends the AddressBook-Level 3 (AB3) codebase into Linkline, a client management system tailored for solo service technicians. While AB3 serves as a simple contact manager, Linkline introduces domain-specific features such as service logs, confirmation flows and corrupted file handling.
 
-<box type="info" seamless>
-
 ### Challenges
 
 | **Challenge** | **Description**                                                                                                                                                               |
@@ -1050,8 +1048,6 @@ This project extends the AddressBook-Level 3 (AB3) codebase into Linkline, a cli
 | **Duplicate detection** | Enhanced `edit` command to prevent duplicate phone/email across different clients while allowing self-edits.                                                                  |
 | **Corrupted file handling** | Added detection and user-friendly error messaging for corrupted `linkline.json` without auto-overwriting.                                                                     |
 | **UI improvements** | Redesigned the interface with a split-pane layout featuring a compact list view (showing name and phone) and a full details panel (showing all client information when selected via `view`).                                                                                                         |
-
-</box>
 
 --------------------------------------------------------------------------------------------------------------------
 
