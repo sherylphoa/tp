@@ -20,7 +20,7 @@ public class ClearCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Linkline has been cleared!";
     public static final String MESSAGE_CLEAR_CONFIRM =
             "Are you sure you want to clear all entries from Linkline?\n"
-                    + "Type 'clear' again to confirm."
+                    + "Type 'clear' again to confirm. "
                     + "(Any leading/trailing spaces will be trimmed)\n"
                     + "Any other command will cancel this pending action.";
 
