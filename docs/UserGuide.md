@@ -194,7 +194,8 @@ edit INDEX [--name=NAME] [--phone=PHONE_NUMBER] [--email=EMAIL] [--address=ADDRE
 * Any field you provide replaces the client's current value for that field.
 * Editing tags is not cumulative. If you provide `--tag=`, Linkline replaces the client's entire tag list with the tags
   you supplied.
-* Use `--tag=` with no value to clear all tags (cannot be combined with other `--tag=` fields in the same command).
+* Use `--tag=` with no value to clear all tags. In this case, it cannot be combined with other `--tag=` fields in the
+  same command.
 * Use `--notes=` with no value to clear notes.
 * Linkline rejects edits that would make the client duplicate another existing client.
 
