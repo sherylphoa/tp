@@ -404,6 +404,11 @@ messages follow the same trimming rule as other parser-handled fields.
 | `Notes`      | Optional free text with max length 200 characters (`Notes#MAX_LENGTH`).                                                                      |
 | `LogMessage` | 1 to 1000 Unicode code points (`LogMessage#MIN_LENGTH`, `LogMessage#MAX_LENGTH`).                                                            |
 
+These constraints are not perfect. For example, phone validation accepts unrealistic formats like `1 2 2-2` because
+it prioritizes flexibility (supporting international formats and readable spacing) over strictness. Country code support
+remains a planned enhancement. However, these constraints are sufficient for Linkline's target use case, and invalid
+entries can always be corrected later using the `edit` command.
+
 This keeps validation centralized and consistent for both command execution and JSON deserialization.
 
 --------------------------------------------------------------------------------------------------------------------

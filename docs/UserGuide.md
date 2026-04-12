@@ -627,8 +627,6 @@ previous Linkline home folder.
    primary screen, the GUI may open off-screen. Delete `preferences.json` before starting Linkline again.
 2. **If you minimize the Help Window** and then run `help` again, the original Help Window remains minimized and no new
    Help Window appears. Restore the minimized Help Window manually.
-3. **Phone number validation is flexible by design.** It only checks total digit count (3-15) and allows spaces and
-    hyphens between digits for readability. Formats like `1 2-2-2` are accepted because they meet the basic criteria.
 
 --------------------------------------------------------------------------------------------------------------------
 
