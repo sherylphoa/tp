@@ -151,8 +151,8 @@ add --name=NAME --phone=PHONE_NUMBER --email=EMAIL --address=ADDRESS [--notes=NO
 
 * `--name=`, `--phone=`, `--email=`, and `--address=` are required.
 * `--tag=` can be repeated. Other named fields can appear at most once.
-* Linkline rejects duplicates. Two clients are considered duplicates if they share the same email address (
-  case-insensitive) or the same phone number after ignoring spaces and hyphens.
+* Linkline rejects duplicates. Two clients are considered duplicates if they share the same email address
+(case-insensitive) or the same phone number after ignoring spaces and hyphens.
 * After a successful `add`, Linkline shows the full client list again.
 
 <box type="tip" seamless>
@@ -245,7 +245,7 @@ Examples:
   * Shows confirmation message for deleting the client at index 1.
   * If you enter `delete 1` again, the client at index 1 is deleted.
 
-Example result after a `delete` command (with confirmation):
+Example result of `delete` command with confirmation (first attempt and confirmed deletion):
 ![pending delete command result](images/pendingDeleteCommandResult.png)
 
 ![confirmed delete command result](images/confirmedDeleteCommandResult.png)
@@ -266,7 +266,7 @@ clear
     * The second `clear` clears all entries.
 * Any other command, including an invalid command, provided after the first `clear` command cancels the pending action.
 
-Example result after a `clear` command with a successful confirmation:
+Example result after confirming `clear`:
 ![clear command result](images/clearCommandResult.png)
 
 ### Listing all clients: `list`
@@ -517,7 +517,7 @@ Examples:
     * Shows confirmation message for deleting log `1` of client `3`.
     * If you enter `logdelete 3 1` again, the corresponding log is deleted.
 
-Example result after a `logdelete` command:
+Example result after confirming `logdelete`:
 ![confirmed logdelete command result](images/logdeleteCommandResult.png)
 
 ### Renaming a tag: `renametag`
@@ -570,7 +570,7 @@ Examples:
     * Shows confirmation message for deleting tag `ac-repair`.
     * If you enter `deletetag ac-repair` again, the tag `ac-repair` is deleted.
 
-Example result after a `deletetag` command:
+Example result after confirming `deletetag`:
 ![confirmed deletetag command result](images/deletetagCommandResult.png)
 
 ### Exiting Linkline: `exit`
@@ -635,6 +635,9 @@ previous Linkline home folder.
    primary screen, the GUI may open off-screen. Delete `preferences.json` before starting Linkline again.
 2. **If you minimize the Help Window** and then run `help` again, the original Help Window remains minimized and no new
    Help Window appears. Restore the minimized Help Window manually.
+3. **Duplicate error messages are not field-specific**. The error message does not tell users whether the duplicate was
+   caused by a matching phone number or email address. Users need to manually check existing clients to identify the
+   duplicate.
 
 --------------------------------------------------------------------------------------------------------------------
 
