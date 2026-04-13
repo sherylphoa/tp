@@ -3,6 +3,7 @@ package seedu.address.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_AC_SERVICE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_PLUMBING;
@@ -212,5 +213,47 @@ public class ModelManagerTest {
         UserPrefs differentUserPrefs = new UserPrefs();
         differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
         assertFalse(modelManager.equals(new ModelManager(addressBook, differentUserPrefs)));
+    }
+
+    @Test
+    public void setPerson_editedPersonMatchesFilter_selectedPersonUpdated() {
+        // Add persons to model
+        modelManager.addPerson(ALICE);
+        modelManager.addPerson(BENSON);
+
+        // Select ALICE
+        modelManager.setSelectedPerson(ALICE);
+        assertEquals(ALICE, modelManager.getSelectedPerson().getValue());
+
+        // Apply filter that matches ALICE
+        modelManager.singlePredicateFilteredPersonList(p -> p.getName().equals(ALICE.getName()));
+
+        // Edit ALICE to something still matching filter
+        Person editedAlice = new PersonBuilder(ALICE).withName(ALICE.getName().fullName).build();
+        modelManager.setPerson(ALICE, editedAlice);
+
+        // Selected person should be updated to edited version
+        assertEquals(editedAlice, modelManager.getSelectedPerson().getValue());
+    }
+
+    @Test
+    public void setPerson_editedPersonNoLongerMatchesFilter_selectedPersonCleared() {
+        // Add persons to model
+        modelManager.addPerson(ALICE);
+        modelManager.addPerson(BENSON);
+
+        // Select ALICE
+        modelManager.setSelectedPerson(ALICE);
+        assertEquals(ALICE, modelManager.getSelectedPerson().getValue());
+
+        // Apply filter that matches only ALICE (by name)
+        modelManager.singlePredicateFilteredPersonList(p -> p.getName().equals(ALICE.getName()));
+
+        // Edit ALICE to something that no longer matches filter
+        Person editedAlice = new PersonBuilder(ALICE).withName("Different Name").build();
+        modelManager.setPerson(ALICE, editedAlice);
+
+        // Selected person should be cleared
+        assertNull(modelManager.getSelectedPerson().getValue());
     }
 }
