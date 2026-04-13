@@ -126,7 +126,12 @@ public class ModelManager implements Model {
         addressBook.setPerson(target, editedPerson);
 
         if (target.equals(selectedPerson.get())) {
-            selectedPerson.set(editedPerson);
+            // Check if edited person still matches current filter
+            if (filteredPersons.getPredicate() == null || filteredPersons.getPredicate().test(editedPerson)) {
+                selectedPerson.set(editedPerson);
+            } else {
+                selectedPerson.set(null);
+            }
         }
     }
 
