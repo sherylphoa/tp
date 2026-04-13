@@ -67,7 +67,11 @@ public class AddCommand extends Command {
 
         logger.fine(() -> "Executing add with notes state: " + describeNotesState(toAdd.getNotes()));
         model.addPerson(toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd))).withSaveRequired();
+        Person standardizedPerson = model.getFilteredPersonList().stream()
+                .filter(p -> p.isSamePerson(toAdd))
+                .findFirst()
+                .orElse(toAdd);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(standardizedPerson))).withSaveRequired();
     }
 
     private static String describeNotesState(Notes notes) {

@@ -97,8 +97,12 @@ public class EditCommand extends Command {
         }
 
         model.setPerson(personToEdit, editedPerson);
+        Person finalPerson = model.getFilteredPersonList().stream()
+                .filter(p -> p.isSamePerson(editedPerson))
+                .findFirst()
+                .orElse(editedPerson);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS,
-                Messages.format(editedPerson))).withSaveRequired();
+                Messages.format(finalPerson))).withSaveRequired();
     }
 
     private static void logNotesTransition(Notes before, Notes after) {
