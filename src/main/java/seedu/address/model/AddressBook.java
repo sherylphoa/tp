@@ -55,7 +55,11 @@ public class AddressBook implements ReadOnlyAddressBook {
      * {@code persons} must not contain duplicate persons.
      */
     public void setPersons(List<Person> persons) {
-        this.persons.setPersons(persons);
+        List<Person> standardizedPersons = persons.stream()
+                .map(this::standardize)
+                .collect(Collectors.toList());
+
+        this.persons.setPersons(standardizedPersons);
         rebuildTagList();
     }
 
@@ -93,11 +97,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * The person must not already exist in the address book.
      */
     public void addPerson(Person p) {
-        Person standardizedPerson = new Person(
-                p.getName(), p.getPhone(), p.getEmail(), p.getAddress(),
-                p.getNotes(), p.getLogHistory(), resolveTags(p.getTags())
-        );
-        persons.add(standardizedPerson);
+        persons.add(standardize(p));
         rebuildTagList();
     }
 
@@ -109,11 +109,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
 
-        Person standardizedPerson = new Person(
-                editedPerson.getName(), editedPerson.getPhone(), editedPerson.getEmail(),
-                editedPerson.getAddress(), editedPerson.getNotes(), editedPerson.getLogHistory(),
-                resolveTags(editedPerson.getTags())
-        );
+        Person standardizedPerson = standardize(editedPerson);
 
         persons.setPerson(target, standardizedPerson);
         rebuildTagList();
@@ -152,6 +148,16 @@ public class AddressBook implements ReadOnlyAddressBook {
         return incomingTags.stream()
                 .map(tags::getFormatCorrectedTag)
                 .collect(Collectors.toSet());
+    }
+
+    /**
+     * Creates a standardized copy of the person with tags matched to the master list.
+     */
+    private Person standardize(Person p) {
+        return new Person(
+                p.getName(), p.getPhone(), p.getEmail(), p.getAddress(),
+                p.getNotes(), p.getLogHistory(), resolveTags(p.getTags())
+        );
     }
 
     //// tag-level operations

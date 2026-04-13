@@ -6,6 +6,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
@@ -126,9 +127,12 @@ public class ModelManager implements Model {
         addressBook.setPerson(target, editedPerson);
 
         if (target.equals(selectedPerson.get())) {
-            // Check if edited person still matches current filter
-            if (filteredPersons.getPredicate() == null || filteredPersons.getPredicate().test(editedPerson)) {
-                selectedPerson.set(editedPerson);
+            Optional<Person> updatedInFilteredList = getFilteredPersonList().stream()
+                    .filter(p -> p.isSamePerson(editedPerson))
+                    .findFirst();
+
+            if (updatedInFilteredList.isPresent()) {
+                selectedPerson.set(updatedInFilteredList.get());
             } else {
                 selectedPerson.set(null);
             }

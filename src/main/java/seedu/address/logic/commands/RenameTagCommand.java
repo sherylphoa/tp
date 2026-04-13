@@ -23,6 +23,7 @@ public class RenameTagCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Renamed Tag: %1$s to %2$s";
     public static final String MESSAGE_TAG_NOT_FOUND = "The tag '%1$s' does not exist in Linkline.";
     public static final String MESSAGE_DUPLICATE_TAG = "The tag '%1$s' already exists.";
+    public static final String MESSAGE_TAG_DIFFERENT_CAPITALISATION = "The tag '%1$s' exists as '%2$s' in Linkline.";
 
     private final Tag oldTag;
     private final Tag newTag;
@@ -42,15 +43,21 @@ public class RenameTagCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (!model.hasTag(oldTag)) {
-            throw new CommandException(String.format(MESSAGE_TAG_NOT_FOUND, oldTag.tagName));
+        Tag actualOldTag = model.getAddressBook().getTagList().stream()
+                .filter(t -> t.isSameTag(oldTag))
+                .findFirst()
+                .orElseThrow(() -> new CommandException(String.format(MESSAGE_TAG_NOT_FOUND, oldTag.tagName)));
+
+        if (!actualOldTag.equals(oldTag)) {
+            throw new CommandException(String.format(
+                    MESSAGE_TAG_DIFFERENT_CAPITALISATION, oldTag.tagName, actualOldTag.tagName));
         }
 
         if (model.hasTag(newTag) && !oldTag.isSameTag(newTag)) {
             throw new CommandException(String.format(MESSAGE_DUPLICATE_TAG, newTag.tagName));
         }
 
-        model.setTag(oldTag, newTag);
+        model.setTag(actualOldTag, newTag);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, oldTag.tagName, newTag.tagName)).withSaveRequired();
     }
