@@ -54,8 +54,6 @@ HelpWindow --|> UiPart
 PersonDetailPanel --|> UiPart
 
 PersonCard ..> Model
-PersonListPanel ..> Model
-PersonDetailPanel ..> Model
 PersonDetailCard ..> Model
 UiManager -right-> Logic
 MainWindow -left-> Logic
