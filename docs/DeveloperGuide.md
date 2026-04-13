@@ -406,7 +406,11 @@ messages follow the same trimming rule as other parser-handled fields.
 
 This keeps validation centralized and consistent for both command execution and JSON deserialization.
 
-These constraints are not perfect. For example, phone validation accepts unrealistic formats like `1 2 2-2` because
+These constraints are not perfect. For example:
+* **Name validation** uses a 1-100 character limit. The minimum prevents blank names, while the maximum accommodates
+real-world names (most are under 50 characters). The limit is measured in Unicode code points to support multi-language
+names.
+* **Phone validation** accepts unrealistic formats like `1 2 2-2` because
 it prioritizes flexibility (supporting international formats and readable spacing) over strictness. Country code support
 remains a planned enhancement. However, these constraints are sufficient for Linkline's target use case, and invalid
 entries can always be corrected later using the `edit` command.
