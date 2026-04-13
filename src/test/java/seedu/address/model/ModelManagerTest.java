@@ -143,6 +143,22 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void refreshSelectedPersonIfTagAffected_tagModified_selectedPersonUpdates() {
+        Tag oldTag = new Tag("OldTag");
+        Tag newTag = new Tag("NewTag");
+        Person personWithTag = new PersonBuilder(ALICE).withTags("OldTag").build();
+
+        modelManager.addPerson(personWithTag);
+        modelManager.setSelectedPerson(personWithTag);
+
+        modelManager.setTag(oldTag, newTag);
+
+        Person updatedSelected = modelManager.getSelectedPerson().getValue();
+        assertNotSame(personWithTag, updatedSelected);
+        assertTrue(updatedSelected.getTags().contains(newTag));
+    }
+
+    @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
     }

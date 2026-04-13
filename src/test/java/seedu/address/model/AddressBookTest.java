@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -114,6 +116,40 @@ public class AddressBookTest {
 
         assertTrue(addressBook.hasTag(newTag));
         assertTrue(addressBook.getTagList().contains(newTag));
+    }
+
+    @Test
+    public void addPerson_tagsStandardizedToMasterList_success() {
+        Tag masterTag = new Tag("Urgent");
+        addressBook.addTag(masterTag);
+
+        Person dirtyPerson = new PersonBuilder(ALICE).withTags("URGENT").build();
+        addressBook.addPerson(dirtyPerson);
+
+        Person savedPerson = addressBook.getPersonList().get(0);
+        Tag savedTag = savedPerson.getTags().iterator().next();
+        assertEquals("Urgent", savedTag.tagName);
+    }
+
+    @Test
+    public void addPerson_multipleTagsWithMixedCasing_resolvedCorrectly() {
+        // Setup master list
+        addressBook.addTag(new Tag("Hardware"));
+        addressBook.addTag(new Tag("Software"));
+
+        // Add person with mixed casing
+        Person p = new PersonBuilder(ALICE).withTags("hardware", "SOFTWARE").build();
+        addressBook.addPerson(p);
+
+        Set<Tag> resolvedTags = addressBook.getPersonList().get(0).getTags();
+
+        assertEquals(2, resolvedTags.size());
+        assertTrue(resolvedTags.contains(new Tag("Hardware")));
+        assertTrue(resolvedTags.contains(new Tag("Software")));
+
+        List<String> tagNames = resolvedTags.stream().map(t -> t.tagName).collect(Collectors.toList());
+        assertTrue(tagNames.contains("Hardware"));
+        assertTrue(tagNames.contains("Software"));
     }
 
     @Test

@@ -2,6 +2,7 @@ package seedu.address.model.tag;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_AC_SERVICE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_PLUMBING;
@@ -173,5 +174,38 @@ public class UniqueTagListTest {
     @Test
     public void toStringMethod() {
         assertEquals(uniqueTagList.asUnmodifiableObservableList().toString(), uniqueTagList.toString());
+    }
+
+    @Test
+    public void getFormatCorrectedTag_tagInListSameCase_returnsListInstance() {
+        uniqueTagList.add(plumbingTag);
+        Tag toCheck = new Tag(VALID_TAG_PLUMBING);
+        Tag result = uniqueTagList.getFormatCorrectedTag(toCheck);
+
+        assertEquals(plumbingTag, result);
+        assertTrue(plumbingTag == result);
+    }
+
+    @Test
+    public void getFormatCorrectedTag_tagInListDifferentCase_returnsListInstance() {
+        uniqueTagList.add(plumbingTag);
+        Tag toCheck = plumbingTagCaps;
+        Tag result = uniqueTagList.getFormatCorrectedTag(toCheck);
+
+        assertEquals(plumbingTag.tagName, result.tagName);
+        assertNotEquals(toCheck.tagName, result.tagName);
+    }
+
+    @Test
+    public void getFormatCorrectedTag_tagNotInList_returnsOriginalTag() {
+        Tag toCheck = electricalTag;
+        Tag result = uniqueTagList.getFormatCorrectedTag(toCheck);
+
+        assertEquals(toCheck, result);
+    }
+
+    @Test
+    public void getFormatCorrectedTag_nullTag_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> uniqueTagList.getFormatCorrectedTag(null));
     }
 }
