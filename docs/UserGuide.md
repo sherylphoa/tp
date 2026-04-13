@@ -284,7 +284,7 @@ Example result after a `list` command:
 
 ### Viewing client details: `view`
 
-Shows the specified client's full details in the right-hand panel.
+Shows the specified client's full details in the right-hand panel (including full client name, tags, phone number, email address...).
 
 Format:
 
@@ -308,6 +308,8 @@ Examples:
 
 * `view 1`
 * `find --name=Alex` followed by `view 1`
+
+**Note:** Clicking on client in list will only change the highlight position, to see details of a client or before making any information modification, please use `view` command.
 
 ### Finding clients by details: `find`
 
@@ -627,11 +629,8 @@ previous Linkline home folder.
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen and later switch to using only the
-   primary screen, the GUI may open off-screen. Delete `preferences.json` before starting Linkline again.
-2. **If you minimize the Help Window** and then run `help` again, the original Help Window remains minimized and no new
-   Help Window appears. Restore the minimized Help Window manually.
-
+1. **When using multiple screens**, if you move the application to a secondary screen and later switch to using only the primary screen, the GUI may open off-screen. Delete `preferences.json` before starting Linkline again.
+2. **If you minimize the Help Window** and then run `help` again, the original Help Window remains minimized and no new Help Window appears. Restore the minimized Help Window manually.
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
