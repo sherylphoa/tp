@@ -144,4 +144,19 @@ public class UniqueTagList implements Iterable<Tag> {
                 .distinct()
                 .count();
     }
+
+    /**
+     * Returns a tag from the list that is equivalent to {@code toCheck} (case-insensitive).
+     * If an equivalent tag exists in the list, that instance is returned to preserve the existing
+     * capitalization. If no equivalent tag exists, {@code toCheck} is returned.
+     *
+     * @param toCheck The tag to look up.
+     * @return The canonical version of the tag from the list, or the original tag if not found.
+     */
+    public Tag getFormatCorrectedTag(Tag toCheck) {
+        return internalList.stream()
+                .filter(toCheck::isSameTag)
+                .findFirst()
+                .orElse(toCheck);
+    }
 }

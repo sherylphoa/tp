@@ -93,7 +93,11 @@ public class AddressBook implements ReadOnlyAddressBook {
      * The person must not already exist in the address book.
      */
     public void addPerson(Person p) {
-        persons.add(p);
+        Person standardizedPerson = new Person(
+                p.getName(), p.getPhone(), p.getEmail(), p.getAddress(),
+                p.getNotes(), p.getLogHistory(), resolveTags(p.getTags())
+        );
+        persons.add(standardizedPerson);
         rebuildTagList();
     }
 
@@ -105,7 +109,13 @@ public class AddressBook implements ReadOnlyAddressBook {
     public void setPerson(Person target, Person editedPerson) {
         requireNonNull(editedPerson);
 
-        persons.setPerson(target, editedPerson);
+        Person standardizedPerson = new Person(
+                editedPerson.getName(), editedPerson.getPhone(), editedPerson.getEmail(),
+                editedPerson.getAddress(), editedPerson.getNotes(), editedPerson.getLogHistory(),
+                resolveTags(editedPerson.getTags())
+        );
+
+        persons.setPerson(target, standardizedPerson);
         rebuildTagList();
     }
 
@@ -128,6 +138,20 @@ public class AddressBook implements ReadOnlyAddressBook {
                 .collect(Collectors.toSet());
 
         tags.setTags(new ArrayList<>(tagsInUse));
+    }
+
+    /**
+     * Resolves a set of tags against the unique tag list to ensure capitalization consistency.
+     * For each tag in the input set, if a tag with the same name (ignoring case) exists in
+     * the address book, it is replaced with the existing version.
+     *
+     * @param incomingTags The set of tags provided by user input.
+     * @return A set of tags synchronized with the master tag list's capitalization.
+     */
+    private Set<Tag> resolveTags(Set<Tag> incomingTags) {
+        return incomingTags.stream()
+                .map(tags::getFormatCorrectedTag)
+                .collect(Collectors.toSet());
     }
 
     //// tag-level operations
