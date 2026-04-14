@@ -1076,14 +1076,10 @@ Team size: 5
    fixing a mistake in a log entry requires deleting the old log and adding a replacement. We plan to add a
    `logedit` command so users can update an existing log entry directly while keeping the rest of the client's log
    history intact.
-4. **Enhance and consolidate the `find` command with `--notes=...`, `--log=...` and `--matchall=`**: Currently, `find`
-   and `filtertag` exist as separate commands to reflect the architectural decision to treat `Tags` as a first-class
-   entity for a more OOP model, and `find` cannot search service notes or past log content. We plan to unify `find` and
-   `filtertag` into a single command while expanding its capabilities. In addition to existing fields (names, phone
-   numbers, emails, addresses and tags), the enhanced find will support searching within `notes` and `logs` (e.g.,
-   `--notes=...`, `--log=...`) so users can locate clients using site instructions or previous job records. A
-   `--matchall=` flag will allow users to toggle between partial and exact tag matching, providing a more powerful and
-   intuitive search experience while preserving the underlying tag architecture.
+4. **Extend `find` to search notes and log history**: The current `find` command can search names, phone numbers,
+   emails, addresses, and tags, but it cannot search service notes or past log content. We plan to extend `find`
+   with fields such as `--notes=...` and `--log=...` so users can locate clients using site instructions or previous
+   job records.
 5. **Enhance phone number handling with country codes**: Linkline currently stores a single phone number per client with 
    limited country code support. We plan to enhance this by allowing optional `+<country_code>` prefixes
    (e.g., `+65 91234567`) and normalizing numbers using `country_code + local_digits` for duplicate detection.
@@ -1099,13 +1095,14 @@ Team size: 5
    filtered view.
 8. **Repurpose the selection highlight**: The current highlight is a cosmetic leftover with no function. We plan to
    repurpose it to provide useful feedback (e.g., indicating the most recently viewed client).
-9. **Improve adaptive sizing for the Notes and Logs sections**: Linkline currently keeps the client detail panel usable
+9. **Consolidate search and filter logic into a unified `find` command:** Currently, `find` and `filtertag` exist as
+   separate commands. `filtertag` was originally implemented as a distinct component to reflect the architectural
+   decision to treat `Tags` as a first-class entity for a more OOP model. However, this separation now creates a command
+   overlap where users must switch between `find` (for broad OR-matching across general fields) and `filtertag` (for
+   specific tag-set intersection). We plan to unify these into a single `find` command. This update will include a
+   `--matchall=` flag to allow users to toggle between partial and exact tag matching, providing a more intuitive and
+   streamlined CLI experience while maintaining the underlying `Tag` architecture.
+10. **Improve adaptive sizing for the Notes and Logs sections:** Linkline currently keeps the client detail panel usable
    through wrapping and scrolling, but longer `notes` and `logs` content can still require more internal scrolling than
    necessary on larger windows. We plan to let these sections use available vertical space more effectively as the app
    window grows, while preserving usability and access to the full content on smaller windows.
-10. **Allow `filtertag` to change the capitalisation of tags:** Currently, `Tags` are case-insensitive for duplicate
-   detection and identity, but Linkline lacks a way to globally update the capitalisation of a tag once it has been
-   created. For example, if a tag is created as `plumbing`, it cannot currently be renamed to `Plumbing` without
-   deleting and recreating it across all affected clients. We plan to enhance the `renametag` command to support
-   capitalisation-only updates. This will allow users to refine the visual presentation of their tag list globally
-   across the entire database without affecting the identity logic.

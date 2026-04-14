@@ -648,6 +648,9 @@ previous Linkline home folder.
    `edit`, `add`, or `list`, but this is harmless and does not affect functionality. For example, after editing a client
    out of a filtered list, the highlight may move to another client, but this does not mean the highlighted client
    should now be shown in the details panel. Future versions may remove or repurpose this highlight.
+4. **Tag capitalisation cannot be updated globally**. Tags are case-insensitive for duplicate detection and identity,
+   but there is currently no way to change the capitalisation of an existing tag across all clients. For example, a tag
+   created as `plumbing` cannot be updated to `Plumbing` without deleting and recreating it for each affected client.
 
 --------------------------------------------------------------------------------------------------------------------
 
