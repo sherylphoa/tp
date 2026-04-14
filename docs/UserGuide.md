@@ -125,7 +125,7 @@ The following constraints apply whenever these field values are entered in comma
 
 <box type="tip" seamless>
 
-**Tip:** Linkline keeps the displayed client list sorted by name, then by phone number (by numeric digits only – spaces
+**Tip:** Linkline keeps the displayed client list sorted by name, then by phone number (by numeric digits only - spaces
 and hyphens are ignored). Whenever a command changes which clients are shown, whether by modifying data, resetting the
 list, or narrowing it, the displayed client list remains sorted in that order.
 </box>
@@ -518,9 +518,10 @@ logdelete CLIENT_INDEX LOG_INDEX
 
 Examples:
 
-* `logdelete 3 1` followed by `find --name=Bernice`
+* `logdelete 2 1` followed by `find --name=Bernice`
     * The pending deletion is canceled by the `find` command.
 * Continuing from the earlier `logadd 3 ...` example: `logdelete 3 1`
+    * After that earlier `logadd`, client `3` has one log, so `logdelete 3 1` is valid.
     * Shows confirmation message for deleting log `1` of client `3`.
     * If you enter `logdelete 3 1` again, the corresponding log is deleted.
 

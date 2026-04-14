@@ -18,7 +18,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](http://github.com/crunchybiscuit19)]
 
 * Role: Developer
-* Responsibilities: Dev Ops + Threading
+* Responsibilities: Feature Development
 
 ### Shim Jaejun
 
@@ -27,7 +27,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](http://github.com/jaejun02)]
 
 * Role: Developer
-* Responsibilities: Dev Ops
+* Responsibilities: Feature Development + Data
 
 ### Tan Kin Ru
 
@@ -36,7 +36,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](http://github.com/kihoo56tkr)]
 
 * Role: Developer
-* Responsibilities: UI
+* Responsibilities: Feature Development
 
 ### Liu Ziyue
 
@@ -45,7 +45,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](http://github.com/huiyi-Al)]
 
 * Role: Developer
-* Responsibilities: Tests
+* Responsibilities: UI
 
 ### Sheryl Phoa
 
@@ -54,4 +54,4 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](http://github.com/sherylphoa)]
 
 * Role: Developer
-* Responsibilities: Data
+* Responsibilities: Data + Testing

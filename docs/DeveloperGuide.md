@@ -376,7 +376,7 @@ Linkline uses separate persistence policies for address book data and user prefe
 * If such a save fails after the in-memory model has already changed, `LogicManager` records that unsaved address book
   changes are still present.
 * A later successful address book save clears that unsaved state.
-* On graceful shutdown, `MainApp.stop()` makes one best-effort retry only if that unsaved state is still present. Failing of which, it logs the failure and exits without further retries (i.e., the file is not saved).
+* On graceful shutdown, `MainApp.stop()` makes one best-effort retry only if that unsaved state is still present. If that retry also fails, it logs the failure and exits without further retries (i.e., the file is not saved).
 
 #### User preferences
 
@@ -820,7 +820,7 @@ Use case ends.
 * **Pending action**: A temporary confirmation state stored after the first execution of a destructive command such as `delete`, `clear`, `deletetag`, or `logdelete`.
 * **Selected client**: The client whose full details are currently shown in the details pane.
 * **Service-location context**: Physical details about a client's service address, access instructions, precautions, or special requirements that matter during an on-site visit.
-* **Solo technician**: The primary target user of Linkline.
+* **Solo residential service technician**: The primary target user of Linkline.
 
 ## **Appendix: Instructions for manual testing**
 
@@ -1045,7 +1045,7 @@ Removing or renaming optional fields such as `notes`, `logs`, or `tags` may stil
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Appendix: Effort**
-This project extends the AddressBook-Level 3 (AB3) codebase into Linkline, a client management system tailored for solo service technicians. While AB3 serves as a simple contact manager, Linkline introduces domain-specific features such as service logs, confirmation flows and corrupted file handling.
+This project extends the AddressBook-Level 3 (AB3) codebase into Linkline, a client management system tailored for solo residential service technicians. While AB3 serves as a simple contact manager, Linkline introduces domain-specific features such as service logs, confirmation flows and corrupted file handling.
 
 ### Challenges
 
@@ -1069,40 +1069,42 @@ Team size: 5
    marker as the start of a new argument, and it also trims away boundary whitespace. We plan to support quoted input
    such as `--notes="Call before arriving -- bring ladder"` together with escapes such as `\"`, `\\`, and `\n` so
    free-text fields can preserve literal special text more reliably. This would also make more compact syntax variants (e.g., `-n=...`, `n/...`) easier to consider in the future if needed.
-2. **Support user-specified service timestamps for logs**: `logadd` currently records only the current system date and
-   time at the moment the command is entered. We plan to support storing the actual service datetime separately from
-   the log creation time so users can backdate missed job notes without losing an audit trail.
-3. **Add `logedit` for correcting existing log entries**: Linkline currently supports `logadd` and `logdelete`, but
-   fixing a mistake in a log entry requires deleting the old log and adding a replacement. We plan to add a
-   `logedit` command so users can update an existing log entry directly while keeping the rest of the client's log
-   history intact.
-4. **Extend `find` to search notes and log history**: The current `find` command can search names, phone numbers,
+2. **Extend `find` to search notes and log history**: The current `find` command can search names, phone numbers,
    emails, addresses, and tags, but it cannot search service notes or past log content. We plan to extend `find`
    with fields such as `--notes=...` and `--log=...` so users can locate clients using site instructions or previous
    job records.
-5. **Enhance phone number handling with country codes**: Linkline currently stores a single phone number per client with 
+3. **Consolidate search and filter logic into a unified `find` command:** Currently, `find` and `filtertag` exist as
+   separate commands. `filtertag` was originally implemented as a distinct component to reflect the architectural
+   decision to treat `Tags` as a first-class entity for a more OOP model. However, this separation now creates a command
+   overlap where users must switch between `find` and `filtertag` for tag-related searches. We plan to unify these into
+   a single `find` command. Tag searches in a single `find` command would continue to follow Linkline's existing
+   OR-style matching, while users who want further narrowing could still chain multiple `find` commands. This update
+   would also include a `--matchall=` flag to let users choose whether tag matching should use partial substring
+   matching or exact whole-tag matching, providing a more intuitive and streamlined CLI experience while maintaining the
+   underlying `Tag` architecture.
+4. **Support user-specified service timestamps for logs**: `logadd` currently records only the current system date and
+   time at the moment the command is entered. We plan to support storing the actual service datetime separately from
+   the log creation time so users can backdate missed job notes without losing an audit trail.
+5. **Add `logedit` for correcting existing log entries**: Linkline currently supports `logadd` and `logdelete`, but
+   fixing a mistake in a log entry requires deleting the old log and adding a replacement. We plan to add a
+   `logedit` command so users can update an existing log entry directly while keeping the rest of the client's log
+   history intact.
+6. **Improve adaptive sizing for the Notes and Logs sections:** Linkline currently keeps the client detail panel usable
+   through wrapping and scrolling, but longer `notes` and `logs` content can still require more internal scrolling than
+   necessary on larger windows. We plan to let these sections use available vertical space more effectively as the app
+   window grows, while preserving usability and access to the full content on smaller windows.
+7. **Enhance phone number handling with country codes**: Linkline currently stores a single phone number per client with
    limited country code support. We plan to enhance this by allowing optional `+<country_code>` prefixes
    (e.g., `+65 91234567`) and normalizing numbers using `country_code + local_digits` for duplicate detection.
    This ensures `+65 9999 9999` and `9999 9999` are treated as duplicates, while `+66 9999 9999` remains distinct.
    We also plan to support a default country code (e.g., `setcountrycode 65`) so users can enter local numbers without
    typing `+65` every time.
-6. **Support multiple phone numbers per client**: Linkline currently stores only one phone number per client. We plan to
+8. **Support multiple phone numbers per client**: Linkline currently stores only one phone number per client. We plan to
    extend phone number storage to support multiple numbers (e.g., mobile, home, office). As an interim workaround, users
    can store secondary numbers in the `notes` field.
-7. **Improve duplicate error messages**: The current duplicate error message does not specify which field caused the
+9. **Improve duplicate error messages**: The current duplicate error message does not specify which field caused the
    duplicate or which client is affected. We plan to enhance it to show the duplicate field (phone or email), the name
    and index of the existing client, and a suggestion to use `list` if the duplicate is not visible in the current
    filtered view.
-8. **Repurpose the selection highlight**: The current highlight is a cosmetic leftover with no function. We plan to
+10. **Repurpose the selection highlight**: The current highlight is a cosmetic leftover with no function. We plan to
    repurpose it to provide useful feedback (e.g., indicating the most recently viewed client).
-9. **Consolidate search and filter logic into a unified `find` command:** Currently, `find` and `filtertag` exist as
-   separate commands. `filtertag` was originally implemented as a distinct component to reflect the architectural
-   decision to treat `Tags` as a first-class entity for a more OOP model. However, this separation now creates a command
-   overlap where users must switch between `find` (for broad OR-matching across general fields) and `filtertag` (for
-   specific tag-set intersection). We plan to unify these into a single `find` command. This update will include a
-   `--matchall=` flag to allow users to toggle between partial and exact tag matching, providing a more intuitive and
-   streamlined CLI experience while maintaining the underlying `Tag` architecture.
-10. **Improve adaptive sizing for the Notes and Logs sections:** Linkline currently keeps the client detail panel usable
-   through wrapping and scrolling, but longer `notes` and `logs` content can still require more internal scrolling than
-   necessary on larger windows. We plan to let these sections use available vertical space more effectively as the app
-   window grows, while preserving usability and access to the full content on smaller windows.
