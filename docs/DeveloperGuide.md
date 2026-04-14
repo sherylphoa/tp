@@ -820,7 +820,7 @@ Use case ends.
 * **Pending action**: A temporary confirmation state stored after the first execution of a destructive command such as `delete`, `clear`, `deletetag`, or `logdelete`.
 * **Selected client**: The client whose full details are currently shown in the details pane.
 * **Service-location context**: Physical details about a client's service address, access instructions, precautions, or special requirements that matter during an on-site visit.
-* **Solo technician**: The primary target user of Linkline.
+* **Solo residential service technician**: The primary target user of Linkline.
 
 ## **Appendix: Instructions for manual testing**
 
