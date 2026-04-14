@@ -138,19 +138,6 @@ public class UniqueTagListTest {
     }
 
     @Test
-    public void setTag_renameCaseOnly_success() {
-        Tag oldTag = plumbingTagCaps;
-        Tag newTag = plumbingTag;
-        uniqueTagList.add(oldTag);
-
-        // Renaming "plumbing" to "Plumbing"
-        uniqueTagList.setTag(oldTag, newTag);
-
-        assertTrue(uniqueTagList.contains(newTag));
-        assertEquals(VALID_TAG_PLUMBING, uniqueTagList.asUnmodifiableObservableList().get(0).tagName);
-    }
-
-    @Test
     public void remove_caseInsensitive_success() {
         uniqueTagList.add(plumbingTag);
         // Removing using a different case

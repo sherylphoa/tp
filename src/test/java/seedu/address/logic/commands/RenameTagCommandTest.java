@@ -58,19 +58,6 @@ public class RenameTagCommandTest {
     }
 
     @Test
-    public void execute_changeCapitalization_success() {
-        Tag oldTag = new Tag("AC-Service");
-        Tag newTag = new Tag("ac-service");
-        RenameTagCommand renameTagCommand = new RenameTagCommand(oldTag, newTag);
-
-        String expectedMessage = String.format(RenameTagCommand.MESSAGE_SUCCESS, oldTag.tagName, newTag.tagName);
-        Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()), new UserPrefs());
-        expectedModel.setTag(oldTag, newTag);
-
-        assertCommandSuccess(renameTagCommand, model, expectedMessage, expectedModel);
-    }
-
-    @Test
     public void equals() {
         Tag firstTag = new Tag("First");
         Tag secondTag = new Tag("Second");

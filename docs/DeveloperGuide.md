@@ -1097,13 +1097,11 @@ Team size: 5
    repurpose it to provide useful feedback (e.g., indicating the most recently viewed client).
 9. **Consolidate search and filter logic into a unified `find` command:** Currently, `find` and `filtertag` exist as
    separate commands. `filtertag` was originally implemented as a distinct component to reflect the architectural
-   decision to treat `Tags` as a first-class entity for a more OOP model. This allowed for the implementation of a
-   `UniqueTagList` and a `Tag` object, enabling global tag management actions like `renametag` and `deletetag`. However,
-   this separation now creates a command overlap where users must switch between `find` (for broad OR-matching across
-   general fields) and `filtertag` (for specific tag-set intersection). We plan to unify these into a single  find
-   command. This update will include a `--matchall=` flag to allow users to toggle between 'any tag' and 'all tags'
-   matching, providing a more intuitive and streamlined CLI experience while maintaining the underlying architectural
-   integrity of the `Tag` entity.
+   decision to treat `Tags` as a first-class entity for a more OOP model. However, this separation now creates a command
+   overlap where users must switch between `find` (for broad OR-matching across general fields) and `filtertag` (for
+   specific tag-set intersection). We plan to unify these into a single `find` command. This update will include a
+   `--matchall=` flag to allow users to toggle between partial and exact tag matching, providing a more intuitive and
+   streamlined CLI experience while maintaining the underlying `Tag` architecture.
 10. **Improve adaptive sizing for the Notes and Logs sections:** Linkline currently keeps the client detail panel usable
    through wrapping and scrolling, but longer `notes` and `logs` content can still require more internal scrolling than
    necessary on larger windows. We plan to let these sections use available vertical space more effectively as the app

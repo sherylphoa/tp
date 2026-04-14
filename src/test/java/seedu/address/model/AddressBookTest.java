@@ -143,26 +143,6 @@ public class AddressBookTest {
     }
 
     @Test
-    public void setTag_changeCapitalization_updatesAllPersons() {
-        Tag oldTag = new Tag("plumbing");
-        Tag newTag = new Tag("Plumbing");
-        Person alice = new PersonBuilder(ALICE).withTags("plumbing").build();
-        addressBook.addPerson(alice);
-
-        addressBook.setTag(oldTag, newTag);
-
-        // Verify tag in tag list is updated
-        assertTrue(addressBook.getTagList().contains(newTag));
-        assertEquals("Plumbing", addressBook.getTagList().get(0).tagName);
-
-        // Verify tag in Person is updated
-        Person updatedAlice = addressBook.getPersonList().get(0);
-        assertTrue(updatedAlice.getTags().contains(newTag));
-        // Check specific casing
-        assertEquals("Plumbing", updatedAlice.getTags().iterator().next().tagName);
-    }
-
-    @Test
     public void removePerson_lastPersonWithTag_tagRemoved() {
         addressBook.addPerson(ALICE_WITH_PLUMBING_TAG);
         assertTrue(addressBook.hasTag(new Tag("Plumbing")));

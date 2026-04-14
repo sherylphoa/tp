@@ -55,7 +55,7 @@ public class TagTest {
     }
 
     @Test
-    public void equals_caseSensitive() {
+    public void equals_caseInsensitive() {
         Tag tag = new Tag("Plumbing");
 
         // same object -> returns true
@@ -64,10 +64,10 @@ public class TagTest {
         // same values, same case -> returns true
         assertTrue(tag.equals(new Tag("Plumbing")));
 
-        // same values, different case -> returns false
-        assertFalse(tag.equals(new Tag("plumbing")));
-        assertFalse(tag.equals(new Tag("PLUMBING")));
-        assertFalse(tag.equals(new Tag("pLuMbInG")));
+        // same values, different case -> returns true
+        assertTrue(tag.equals(new Tag("plumbing")));
+        assertTrue(tag.equals(new Tag("PLUMBING")));
+        assertTrue(tag.equals(new Tag("pLuMbInG")));
 
         // different types -> returns false
         assertFalse(tag.equals(1));
@@ -77,18 +77,6 @@ public class TagTest {
 
         // different values -> returns false
         assertFalse(tag.equals(new Tag("Electrical")));
-    }
-
-    @Test
-    public void isSameTag_caseInsensitive() {
-        Tag tag = new Tag("Plumbing");
-
-        // different case -> returns true
-        assertTrue(tag.isSameTag(new Tag("plumbing")));
-        assertTrue(tag.isSameTag(new Tag("PLUMBING")));
-
-        // different values -> returns false
-        assertFalse(tag.isSameTag(new Tag("Electrical")));
     }
 
     @Test

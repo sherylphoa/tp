@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -175,7 +176,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         tags.remove(key);
 
         updatePersonsWithTag(key, tagsSet -> {
-            tagsSet.removeIf(t -> t.isSameTag(key));
+            tagsSet.remove(key);
             return tagsSet;
         });
     }
@@ -186,15 +187,10 @@ public class AddressBook implements ReadOnlyAddressBook {
     private void updatePersonsWithTag(Tag target, UnaryOperator<Set<Tag>> tagTransformer) {
         List<Person> updatedPersonList = persons.asUnmodifiableObservableList().stream()
                 .map(person -> {
-                    boolean hasTag = person.getTags().stream().anyMatch(t -> t.isSameTag(target));
-                    if (!hasTag) {
+                    if (!person.getTags().contains(target)) {
                         return person;
                     }
-
-                    Set<Tag> updatedTags = person.getTags().stream()
-                            .filter(t -> !t.isSameTag(target))
-                            .collect(Collectors.toSet());
-
+                    Set<Tag> updatedTags = new HashSet<>(person.getTags());
                     // tagTransformer decides if we rename or remove the tag
                     tagTransformer.apply(updatedTags);
 

@@ -541,7 +541,7 @@ renametag --tag=OLD_TAG --tag=NEW_TAG
 * Provide exactly two `--tag=` fields, in this order: `OLD_TAG`, then `NEW_TAG`.
 * The `OLD_TAG` must already exist in Linkline.
 * The `NEW_TAG` must be valid and must not already exist.
-* Tag names are case-insensitive.<br>
+* Tag names are case-insensitive and capitalisation cannot be changed with `renametag`.<br>
   Example: `PLUMBING` and `plumbing` are treated as the same tag.
 * After a successful rename, Linkline shows the full client list again.
 
@@ -649,6 +649,9 @@ previous Linkline home folder.
    `edit`, `add`, or `list`, but this is harmless and does not affect functionality. For example, after editing a client
    out of a filtered list, the highlight may move to another client, but this does not mean the highlighted client
    should now be shown in the details panel. Future versions may remove or repurpose this highlight.
+4. **Tag capitalisation cannot be updated globally**. Tags are case-insensitive for duplicate detection and identity,
+   but there is currently no way to change the capitalisation of an existing tag across all clients. For example, a tag
+   created as `plumbing` cannot be updated to `Plumbing` without deleting and recreating it for each affected client.
 
 --------------------------------------------------------------------------------------------------------------------
 

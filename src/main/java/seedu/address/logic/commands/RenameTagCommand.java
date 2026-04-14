@@ -46,7 +46,7 @@ public class RenameTagCommand extends Command {
             throw new CommandException(String.format(MESSAGE_TAG_NOT_FOUND, oldTag.tagName));
         }
 
-        if (model.hasTag(newTag) && !oldTag.isSameTag(newTag)) {
+        if (model.hasTag(newTag)) {
             throw new CommandException(String.format(MESSAGE_DUPLICATE_TAG, newTag.tagName));
         }
 

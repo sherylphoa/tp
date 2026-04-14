@@ -168,7 +168,7 @@ public class ModelManager implements Model {
      */
     private void refreshSelectedPersonIfTagAffected(Tag target) {
         Person currentlySelected = selectedPerson.getValue();
-        if (currentlySelected != null && currentlySelected.getTags().stream().anyMatch(t -> t.isSameTag(target))) {
+        if (currentlySelected != null && currentlySelected.getTags().contains(target)) {
             selectedPerson.setValue(null);
             getFilteredPersonList().stream()
                     .filter(p -> p.isSamePerson(currentlySelected))

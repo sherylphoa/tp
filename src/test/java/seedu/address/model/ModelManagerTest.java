@@ -128,21 +128,6 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void setTag_changeCapitalization_updatesSelection() {
-        Tag oldTag = new Tag("plumbing");
-        Tag newTag = new Tag("Plumbing");
-        Person alice = new PersonBuilder(ALICE).withTags("plumbing").build();
-
-        modelManager.addPerson(alice);
-        modelManager.setSelectedPerson(alice);
-
-        modelManager.setTag(oldTag, newTag);
-
-        Tag updatedTag = modelManager.getSelectedPerson().getValue().getTags().iterator().next();
-        assertEquals("Plumbing", updatedTag.tagName);
-    }
-
-    @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
     }
